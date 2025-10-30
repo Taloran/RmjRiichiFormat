@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>分数格式转换器</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div
+      id="announcement-overlay"
+      class="announcement-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="announcement-title"
+    >
+      <div class="announcement-content">
+        <h2 id="announcement-title">公告</h2>
+        <div class="announcement-body">
+          <p>
+            此工具旨在将日常玩家的对局记录块，转换成标准格式，并非自动化程序，最后校验仍需人工仔细核查。
+          </p>
+          <ul>
+            <li>
+              使用 Ctrl+1/2/3 快捷键可以快速整理和标记输入内容。
+              <ul>
+                <li>
+                  Ctrl+1：选中多行内容，去除多余空格和换行（如每人一行的格式）。
+                </li>
+                <li>
+                  Ctrl+2：选中玩家名字，强制解析为ID（遇含有数字的ID中请使用此功能）。
+                </li>
+                <li>
+                  Ctrl+3：选中已经是标准格式的内容，浏览器将跳过选择区域直接输出（仍会删除多余空格）。
+                </li>
+              </ul>
+            </li>
+
+            <li>别名映射会自动保存在本地浏览器，请及时导出备份。</li>
+            <li>
+              转换后的结果请自行复核ID与分数还有对局顺序是否正确。（！！！）
+            </li>
+          </ul>
+        </div>
+        <label class="announcement-option">
+          <input type="checkbox" id="announcement-dismiss-remember" />
+          下次不再显示
+        </label>
+        <div class="announcement-actions">
+          <button id="announcement-close-btn" type="button">已阅读</button>
+        </div>
+      </div>
+    </div>
+    <header class="app-header">
+      <h1>分数格式转换器</h1>
+      <p class="subtitle">把玩家习惯结算记录转换成标准格式</p>
+    </header>
+    <main class="app-container">
+      <section class="input-panel">
+        <h2>输入记录</h2>
+        <textarea
+          id="raw-input"
+          placeholder="例如：雨雨500 高手300 低手200 超高手0"
+          spellcheck="false"
+        ></textarea>
+        <div class="input-controls">
+          <button id="process-btn" type="button">转换记录</button>
+          <button id="clear-btn" type="button">清空输入</button>
+        </div>
+        <section class="alias-panel">
+          <div class="alias-panel-header">
+            <h3>别名映射</h3>
+            <div class="alias-header-actions">
+              <span id="alias-count-label">共 0 条</span>
+              <button
+                id="toggle-alias-btn"
+                type="button"
+                aria-controls="alias-table-wrapper"
+                aria-expanded="true"
+              >
+                折叠列表
+              </button>
+            </div>
+          </div>
+          <div class="alias-buttons">
+            <button id="add-alias-btn" type="button">新增别名</button>
+            <button id="import-alias-btn" type="button">导入 JSON</button>
+            <button id="export-alias-btn" type="button">导出 JSON</button>
+            <input
+              id="alias-file-input"
+              type="file"
+              accept="application/json"
+              hidden
+            />
+          </div>
+          <div class="alias-table-wrapper" id="alias-table-wrapper">
+            <table class="alias-table">
+              <thead>
+                <tr>
+                  <th>别名</th>
+                  <th>目标名称</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="alias-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+      <section class="output-panel">
+        <h2>输出结果</h2>
+        <div class="plain-output-wrapper">
+          <div class="plain-output-header">
+            <span>纯文本</span>
+            <button id="copy-plain-btn" type="button">复制纯文本</button>
+          </div>
+          <textarea id="plain-output" readonly spellcheck="false"></textarea>
+        </div>
+        <div id="output-area" class="output-area"></div>
+      </section>
+    </main>
+    <footer class="status-bar" id="status-bar">准备就绪。</footer>
+    <script src="app.js"></script>
+  </body>
+</html>
